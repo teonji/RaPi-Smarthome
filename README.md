@@ -1,3 +1,13 @@
+# New Style RaPi-Smarthome by teonji
+- Re-design RaPi-Smarthome's new style of Moehn Sebastian
+- Added "STORED MUSIC" featured
+- Added responsive featured to make the app works with all mobile devices.
+
+# Next featured
+- Login
+- Stored music songs list
+- Radio list
+
 # RaPi-Smarthome
 Some private work to create a web-app that can communicate with 433 MHz devices and the Bose SoundTouch speakers.
 - `app.js` is the main backend and is handling communication to 433 MHz devices and frontend and DB related actions
@@ -7,7 +17,7 @@ Some private work to create a web-app that can communicate with 433 MHz devices 
 - Added a BOSE SoundTouch Alarm system, as these devices are not able to do that themselves.
 - Added Device discovery via MDNS
 - Added a sleeptimer system for the BOSE SoundTouch devices
-- Added some responsive features to make the app work with most iOS devices
+- ~~Added some responsive features to make the app work with most iOS devices~~
 
 # Preview
 

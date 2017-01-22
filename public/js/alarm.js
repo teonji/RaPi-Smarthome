@@ -121,16 +121,19 @@ $(document).ready(function() { // Start when document is ready
 
   // -- Edit an alarm --
   $(document).on('click', '.editbtn', function(){
-    var alarmID = $(this).data("id");
-    var alarmRev = $(this).data("rev");
-    socket.emit('alarmEdit', Array(alarmID, alarmRev)); // Send event to Server
+      var alarmID = $(this).data("id");
+      var alarmRev = $(this).data("rev");
+      socket.emit('alarmEdit', Array(alarmID, alarmRev)); // Send event to Server
+      $('#alarmModal').modal('show');
   });
 
   // -- Delete an alarm --
   $(document).on('click', '.deletebtn', function(){
-    var alarmID = $(this).data("id");
-    var alarmRev = $(this).data("rev");
-    socket.emit('alarmDelete', Array(alarmID, alarmRev)); // Send event to Server
+    if (confirm('Are you sure to delete it?')) {
+        var alarmID = $(this).data("id");
+        var alarmRev = $(this).data("rev");
+        socket.emit('alarmDelete', Array(alarmID, alarmRev)); // Send event to Server
+    }
   });
 
   // - Socket Responses -
@@ -147,7 +150,7 @@ $(document).ready(function() { // Start when document is ready
         var alarmSample = alarmSample0.clone();
         alarmSample.attr('id', "alarm_"+alarm._id);
         alarmSample.css('display', "block");
-        alarmSample.find('.alarmTime').html(alarm.time+" Uhr"); // Makes changes on this element
+        alarmSample.find('.alarmTime').html(alarm.time); // Makes changes on this element
         alarmSample.find('.alarmName').html(alarm.name);
         alarmSample.find('.alarmDays').html(alarm.days.join(', '));
         Array.prototype.filterObjects = function(key, value) {
@@ -230,6 +233,7 @@ $(document).ready(function() { // Start when document is ready
       resetForms();
       socket.emit('getAlarms', ""); // Refresh all alarms
       sendNote("Alarm: '"+data.data.name+"' created!", "success");
+      $('#alarmModal').modal('toggle');
     }else{
       sendNote(data.desc, "alert");
     }
@@ -242,6 +246,7 @@ $(document).ready(function() { // Start when document is ready
       socket.emit('getAlarms', ""); // Refresh all alarms
 
       sendNote("Alarm: '"+data.data.name+"' edited!", "success");
+      $('#alarmModal').modal('toggle');
     }else{
       sendNote(data.desc, "error");
     }

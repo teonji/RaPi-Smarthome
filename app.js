@@ -58,18 +58,18 @@
   app.use(express.static(__dirname + '/public')); // All Public files are stored here
 
   // - Routes -
-  app.get('/', homeRoute); // Standard route (usually redirects to subroute)
-  app.get('/home', homeRoute); // Shows all categories and objects
-  app.get('/manage', manageRoute); // Manage categories and objects
-  app.get('/bose', boseRoute); // Control BOSE devices
-  app.get('/alarm', alarmRoute); // Manage alarms for BOSE devices
-  app.get('/info', infoRoute); // Show generall app information
+  app.get('/', boseRoute); // Standard route (usually redirects to subroute)
+  //app.get('/home', boseRoute); // Shows all categories and objects
+  //app.get('/manage', manageRoute); // Manage categories and objects
+  //app.get('/bose', boseRoute); // Control BOSE devices
+  //app.get('/alarm', alarmRoute); // Manage alarms for BOSE devices
+  //app.get('/info', infoRoute); // Show generall app information
 
   // - Route Functions -
 
     // -- Home route --
     function homeRoute(req, res) {
-      res.redirect('/bose'); // Redirect to BOSE route
+      res.redirect('/'); // Redirect to BOSE route
       // myGroups = []; // Reset variables if loaded again
       // myObjects = [];
       // objectsScanned = false;
@@ -428,6 +428,25 @@ function handleBoseData(cString, type) {
           boseInfo.description = cString.nowPlaying.description;
           boseInfo.coverArt = cString.nowPlaying.art._;
           boseInfo.stationLocation = cString.nowPlaying.stationLocation;
+        }
+    }else if(boseInfo.source == "STORED_MUSIC") { // STORED_MUSIC
+        console.log("STORED_MUSIC!");
+        if(boseInfo.method == "update") {
+            if(cString.updates.nowPlayingUpdated[0].nowPlaying[0].hasOwnProperty('artist')){
+              boseInfo.artist = cString.updates.nowPlayingUpdated[0].nowPlaying[0].artist[0];
+              boseInfo.time = cString.updates.nowPlayingUpdated[0].nowPlaying[0].time[0];
+              boseInfo.track = cString.updates.nowPlayingUpdated[0].nowPlaying[0].track[0];
+              boseInfo.album = cString.updates.nowPlayingUpdated[0].nowPlaying[0].album[0];
+              boseInfo.coverArt = cString.updates.nowPlayingUpdated[0].nowPlaying[0].art[0]._;
+            }
+        }else{
+            if(cString.nowPlaying.hasOwnProperty('artist')){
+              boseInfo.artist = cString.nowPlaying.artist;
+              boseInfo.track = cString.nowPlaying.track;
+              boseInfo.trackID = cString.nowPlaying.trackID;
+              boseInfo.album = cString.nowPlaying.album;
+              boseInfo.coverArt = cString.nowPlaying.art._;
+            }
         }
     }
     if(!stopSending) {

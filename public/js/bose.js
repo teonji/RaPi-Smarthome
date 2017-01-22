@@ -6,6 +6,11 @@ $(document).ready(function() { // Start when document is ready
   socket.emit('boseGetSystem', ""); // Ask Server for current active System
   socket.emit('boseGetTimers', ""); // Ask Server for current active System
 
+  $("#menu-speaker").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+  });
+
   // - User interaction -
   $('.boseSleeptimerBtn').click(function(){ // Handle Event of Bose System click
     if($(this).html() == "Save") { // Save sleeptimer
@@ -48,21 +53,30 @@ $(document).ready(function() { // Start when document is ready
       if(activeBoseSystem !== "none") {
         $('#'+activeBoseSystem).css("background-color", "");
       }
-      $('#'+data).css("background-color", "#449d48");
+      var selected = $('#'+data);
+      selected.css("background-color", "#222");
+
+      var imageSelectedImage = selected.children().children().children('img').attr('src');
+      var imageSelectedName = selected.children().children().children('div').children('.boseDeviceName').text().trim();
+      var imageSelectedStatus = selected.children().children().children('div').children('.boseDevicePower').text().trim();
+      $('#boseDeviceSelectedImage').html('<img src="'+imageSelectedImage+'" height="80" />');
+      $('#boseDeviceSelectedName').html('<span>'+imageSelectedName+'</span>');
+      $('#boseDeviceSelectedStatus').html('<span>'+imageSelectedStatus.split('_').join(' ')+'</span>');
       activeBoseSystem = data; // Change to new Bose System
       socket.emit('boseWhatsPlaying', ""); // Ask Server for current Song
       socket.emit('boseGetVolume', ""); // Ask Server for current volume
     }else{
-      $('.boseArt').html('No Bose System active');
+      $('.imgAlbum').html('<img class="boseArtContent" src="img/off.ico" width="58">');
+      $('.imgAlbumSelected').html('<img class="boseArtContent" src="img/off.ico" width="180">');
     }
   });
 
   // -- Volume change from BOSE --
   socket.on('boseVolumeUpdate', function(data) { // Listen for event "btnActionPressedStatus"
     if(data[1] !== "true") { // Not muted
-      $('.boseVolume').html('Current Volume: '+data[0]);
+      $('.boseVolume').html('Volume: '+data[0]);
     }else{
-      $('.boseVolume').html('Current Volume: Muted');
+      $('.boseVolume').html('Volume: Muted');
     }
   });
 
@@ -82,13 +96,20 @@ $(document).ready(function() { // Start when document is ready
     if(activeBoseSystem == data.device) {
       if(data.source == "SPOTIFY") { // It's playing Spotify
         $('.boseSongInfo').html(data.artist+' - <a href="'+data.trackID+'">'+data.track+"<a/><br />");
-        $('.boseArt').html('<img class="boseArtContent" src="'+data.coverArt+'" width="300">');
+        $('.imgAlbum').html('<img class="boseArtContent" src="'+(data.coverArt ? data.coverArt : '/img/music.svg')+'" width="58">');
+        $('.imgAlbumSelecte').html('<img class="boseArtContent" src="'+(data.coverArt ? data.coverArt : '/img/music.svg')+'" width="180">');
       }else if(data.source == "INTERNET_RADIO"){ // It's playing radio
         $('.boseSongInfo').html(data.stationName+' ('+data.stationLocation+")"); // data.description
-        $('.boseArt').html('<img class="boseArtContent" src="'+data.coverArt+'" width="300">');
+        $('.imgAlbum').html('<img class="boseArtContent" src="'+(data.coverArt ? data.coverArt : '/img/music.svg')+'" width="58">');
+        $('.imgAlbumSelected').html('<img class="boseArtContent" src="'+(data.coverArt ? data.coverArt : '/img/music.svg')+'" width="180">');
       }else if(data.source == "STANDBY") {
         $('.boseSongInfo').html(""); // data.description
-        $('.boseArt').html('System currently in Standby');
+        $('.imgAlbum').html('<img class="boseArtContent" src="img/off.ico" width="58">');
+        $('.imgAlbumSelected').html('<img class="boseArtContent" src="img/off.ico" width="180">');
+      }else if(data.source == "STORED_MUSIC") {
+        $('.boseSongInfo').html(data.artist+' - <a href="'+data.trackID+'">'+data.track+"<a/><br />");
+        $('.imgAlbum').html('<img class="boseArtContent" src="'+(data.coverArt ? data.coverArt : '/img/music.svg')+'" width="58">');
+        $('.imgAlbumSelected').html('<img class="boseArtContent" src="'+(data.coverArt ? data.coverArt : '/img/music.svg')+'" width="180">');
       }
       $('#'+data.device+' .boseDevicePower').html(data.source);
     }else{

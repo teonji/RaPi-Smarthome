@@ -1,80 +1,436 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Metatags -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="author" content="DeMoehn (Sebastian Moehn)">
-    <meta name="creator" content="DeMoehn (Sebastian Moehn)">
-    <meta name="publisher" content="DeMoehn (Sebastian Moehn)">
-    <meta name="description" content="Bose SoundTouch Controller and 433Mhz Home Automation">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-    <!-- Favicons -->
-    <link rel="icon" sizes="16x16 32x32 48x48 64x64" href="img/favicon.ico">
-    <link rel="shortcut icon" href="img/favicon.ico">
-    <link rel="apple-touch-icon" href="img/favicon152.png">
-    <!-- iPhone  SPLASHSCREEN-->
-      <!-- iPhone -->
-      <link href="img/apple-touch-startup-image-320x460.png"
-              media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)"
-              rel="apple-touch-startup-image">
-      <!-- iPhone (Retina) -->
-      <link href="img/apple-touch-startup-image-640x920.png"
-              media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)"
-              rel="apple-touch-startup-image">
-      <!-- iPhone 5 -->
-      <link href="img/apple-touch-startup-image-640x1096.png"
-              media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
-              rel="apple-touch-startup-image">
-      <!-- iPad (portrait) -->
-      <link href="img/apple-touch-startup-image-768x1004.png"
-              media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 1)"
-              rel="apple-touch-startup-image">
-      <!-- iPad (landscape) -->
-      <link href="img/apple-touch-startup-image-748x1024.png"
-              media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 1)"
-              rel="apple-touch-startup-image">
-      <!-- iPad (Retina, portrait) -->
-      <link href="img/apple-touch-startup-image-1536x2008.png"
-              media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)"
-              rel="apple-touch-startup-image">
-      <!-- iPad (Retina, landscape) -->
-      <link href="img/apple-touch-startup-image-1496x2048.png"
-              media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)"
-              rel="apple-touch-startup-image">
-    <!-- Title -->
-    <title>SoundTouch&Home Automation</title>
-    <!-- Scripts -->
-    <script src="src/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    <script src="src/socket.io-1.4.5.js"></script>
-    <script src="js/navbar.js"></script>
-    <script src="js/multipicker.js"></script>
-    <script src="js/layout.js"></script>
-    <script src="src/noty/packaged/jquery.noty.packaged.min.js"></script>
-    <script src="src/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
-    <!-- CSS -->
-    <link href="/css/glyphicon.css" rel="stylesheet">
-    <link href="/css/multipicker.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
-  </head>
-
-  <body role="document">
-    <!-- Fixed navbar -->
-    <div class="navbar" role="navigation">
-      <ul class="topnav" id="myTopnav">
-        <li class="navbtn"><a href="/">Home</a></li>
-        <!-- <li class="navbtn"><a href="/manage">Manage</a></li> -->
-        <li class="navbtn"><a href="/bose">Bose Music</a></li>
-        <li class="navbtn"><a href="/alarm">Bose Alarm</a></li>
-        <li class="navbtn" id="navRight"><a href="/info">Info</a></li>
-        <li class="icon">
-          <a id="hiddenNav" href="javascript:void(0);" onclick="javascript:myFunction()">&#9776;</a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Dynamic Body -->
-    {{=it.body}}
-  </body>
+<html class="full" lang="en">
+    <head>
+        <!-- Metatags -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="author" content="DeMoehn (Sebastian Moehn)">
+        <meta name="creator" content="DeMoehn (Sebastian Moehn)">
+        <meta name="publisher" content="DeMoehn (Sebastian Moehn)">
+        <meta name="description" content="Bose SoundTouch Controller and 433Mhz Home Automation">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+        <!-- Favicons -->
+        <link rel="icon" sizes="16x16 32x32 48x48 64x64" href="img/favicon.ico">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <link rel="apple-touch-icon" href="img/favicon152.png">
+        <!-- iPhone  SPLASHSCREEN-->
+        <!-- iPhone -->
+        <link href="img/apple-touch-startup-image-320x460.png"
+            media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)"
+            rel="apple-touch-startup-image">
+        <!-- iPhone (Retina) -->
+        <link href="img/apple-touch-startup-image-640x920.png"
+            media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image">
+        <!-- iPhone 5 -->
+        <link href="img/apple-touch-startup-image-640x1096.png"
+            media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image">
+        <!-- iPad (portrait) -->
+        <link href="img/apple-touch-startup-image-768x1004.png"
+            media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 1)"
+            rel="apple-touch-startup-image">
+        <!-- iPad (landscape) -->
+        <link href="img/apple-touch-startup-image-748x1024.png"
+            media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 1)"
+            rel="apple-touch-startup-image">
+        <!-- iPad (Retina, portrait) -->
+        <link href="img/apple-touch-startup-image-1536x2008.png"
+            media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image">
+        <!-- iPad (Retina, landscape) -->
+        <link href="img/apple-touch-startup-image-1496x2048.png"
+            media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)"
+            rel="apple-touch-startup-image">
+        <!-- Title -->
+        <title>SoundTouch&Home Automation</title>
+        <!-- Scripts -->
+        <script src="src/jquery.js"></script>
+        <script src="src/socket.io-1.4.5.js"></script>
+        <script src="js/navbar.js"></script>
+        <script src="js/multipicker.js"></script>
+        <script src="js/layout.js"></script>
+        <script src="src/noty/packaged/jquery.noty.packaged.min.js"></script>
+        <script src="src/bootstrap.min.js"></script>
+        <script src="js/bose.js"></script>
+        <script src="js/alarm.js"></script>
+        <!-- CSS -->
+        <link href="/css/glyphicon.css" rel="stylesheet">
+        <link href="/css/multipicker.css" rel="stylesheet">
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/src/font-awesome/css/font-awesome.css" rel="stylesheet">
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+            <div class="container text-center">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menuBar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand visible-xs" href="#">Bose System</a>
+                </div>
+                <div id="menuBar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li>
+                            <a href="#" class="songInfoMenu">
+                                <div class="boseInfoContent">
+                                    <div class="imgAlbum"></div>
+                                    <div class="boseSongInfo"></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav collapse navbar-collapse primaryNav">
+                        <li>
+                            <a href="#">
+                            <button id="PAUSE" type="button" class="boseButton boseButtonBar" data-loading-text="Loading..." value="PAUSE">
+                            <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+                            </button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <button id="PREV_TRACK" type="button" class="boseButton boseButtonBar" data-loading-text="Loading..." value="PREV_TRACK">
+                            <span class="glyphicon glyphicon-backward" aria-hidden="true"></span>
+                            </button>
+                            </a>
+                        </li>
+                        <li class="playListSpace">
+                            <a href="#">
+                            <button id="PLAY" type="button" class="boseButton boseButtonPlay" data-loading-text="Loading..." value="PLAY">
+                            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                            </button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <button id="NEXT_TRACK" type="button" class="boseButton boseButtonBar" data-loading-text="Loading..." value="NEXT_TRACK">
+                            <span class="glyphicon glyphicon-forward" aria-hidden="true"></span>
+                            </button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <button id="THUMBS_UP" type="button" class="boseButton boseButtonBar " data-loading-text="Loading..." value="THUMBS_UP">
+                            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                            </button>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right collapse navbar-collapse secondaryNav">
+                        <li>
+                            <a href="#">
+                            <button id="POWER" type="button" class="boseButton boseButtonBar" data-loading-text="Loading..." value="POWER">
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                            </button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <button id="VOLUME_DOWN" type="button" class="boseButton boseButtonBar" data-loading-text="Loading..." value="VOLUME_DOWN">
+                            <span class="glyphicon glyphicon-volume-down" aria-hidden="true"></span>
+                            </button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <button id="VOLUME_UP" type="button" class="boseButton boseButtonBar" data-loading-text="Loading..." value="VOLUME_UP">
+                            <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
+                            </button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <button id="MUTE" type="button" class="boseButton boseButtonBar" data-loading-text="Loading..." value="MUTE">
+                            <span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span>
+                            </button>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div id="boseVolume" class="boseVolume">Volume: --</div>
+                            </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <button type="button" class="boseButtonBar">
+                            <span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>
+                            </button>
+                            </a>
+                            <ul class="dropdown-menu presetButton">
+                                <li>
+                                    <a href="#">
+                                    <button id="Preset1" type="button" class="boseButton btn" value="PRESET_1">
+                                    <span style="padding-right:3px;">1</span>
+                                    </button>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                    <button id="Preset2" type="button" class="boseButton btn" value="PRESET_2">
+                                    <span style="padding-right:3px;">2</span>
+                                    </button>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                    <button id="Preset3" type="button" class="boseButton btn" value="PRESET_3">
+                                    <span style="padding-right:3px;">3</span>
+                                    </button>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                    <button id="Preset4" type="button" class="boseButton btn" value="PRESET_4">
+                                    <span style="padding-right:3px;">4</span>
+                                    </button>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                    <button id="Preset5" type="button" class="boseButton btn" value="PRESET_5">
+                                    <span style="padding-right:3px;">5</span>
+                                    </button>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                    <button id="Preset6" type="button" class="boseButton btn" value="PRESET_6">
+                                    <span style="padding-right:3px;">6</span>
+                                    </button>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div id="wrapper">
+                <div id="sidebar-wrapper">
+                    <ul class="sidebar-nav">
+                        <li class="logo">
+                            <img src="/img/bose-logo.png" width="220"></img>
+                        </li>
+                        <li class="newAlarmMenu">
+                            <a class="text-center" href="#">
+                                <p data-toggle="modal" data-target="#alarmModal">
+                                    <i class="fa fa-plus"></i> Create new Alarm
+                                </p>
+                            </a>
+                        </li>
+                        {{~it.items :value:index}}
+                        <li>
+                            <div class="boseDevice" data-value="{{=value.MAC}}" id="{{=value.MAC}}">
+                                <div>
+                                    <div class="boseDeviceImg">
+                                        {{? value.type == "SoundTouch 10" }}
+                                        <img src="img/SoundTouch10.png" height="80">
+                                        {{?? value.type == "SoundTouch 20" }}
+                                        <img src="img/SoundTouch20.png" height="80">
+                                        {{??}}
+                                        {{?}}
+                                        <div>
+                                            <div class="boseDeviceName">
+                                                {{=value.name}}
+                                            </div>
+                                            <div class="boseDevicePower">
+                                                {{=value.power}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {{~}}
+                        <li class="licence">
+                            <span>
+                            <a href="https://github.com/DeMoehn">
+                            <b>Created by: </b>Sebastian Möhn
+                            </a>
+                            <a href="https://github.com/teonji">
+                            <b>Style by: </b>Matteo Tritto
+                            </a>
+                            <a href="https://github.com/teonji/RaPi-Smarthome">
+                            <b>License: </b>MIT,
+                            Github: <i class="fa fa-github"></i>
+                            </a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="page-content-wrapper">
+                    <div class="container-fluid">
+                        <div class="col-lg-9">
+                            <div class="panel">
+                                <div class="panel-heading text-center">
+                                    <a href="#menu-speaker" id="menu-speaker" class="pull-left visible-xs">
+                                        <i class="glyphicon glyphicon-menu-hamburger"></i>
+                                    </a>
+                                    <button type="button" id="menu-speaker" class="navbar-toggle collapsed">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <h1>
+                                        Bose Alarm settings
+                                    </h1>
+                                    <span data-toggle="modal" class="addModal" data-target="#alarmModal">
+                                        <i class="fa fa-plus"></i> Create new Alarm
+                                    </span>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="boseContent">
+                                        <div class="alarm">
+                                            <div id="alarm_<=value._id>" class="eachAlarm" style="display:none">
+                                                <div class="panel panel-primary" class="alarmContent">
+                                                    <div class="panel-heading alarmInfo">
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <h3 class="alarmName">
+                                                                    <=value.name>
+                                                                </h3>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="alarmContent pull-right">
+                                                                    <div class="alarmSwitch">
+                                                                        <div class="switch">
+                                                                            <label class="switch">
+                                                                                <input class="switch-input" type="checkbox" id="<=value._id>" data-rev="<=value._rev>" checked/>
+                                                                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                                                                <span class="switch-handle"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="alarmButtons">
+                                                                        <button type="button" class="btn editbtn" id="editalarm" data-id="<=value._id>"  data-rev="<=value._rev>"><i class="fa fa-pencil-square-o"></i></button>
+                                                                        <button type="button" class="btn deletebtn" id="deletealarm" data-id="<=value._id>"  data-rev="<=value._rev>"><i class="fa fa-trash"></i></button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <div class="pull-right">
+                                                            <div class="alarmTime"><=value.time></div>
+                                                            <div class="alarmDevice"><=value.device></div>
+                                                        </div>
+                                                        <div class="alarmDays"><=value.days></div>
+                                                        <div class="alarmPV">(Preset: <=value.preset>, Volume: <=value.volume>)</div>
+                                                    </div>
+                                                </div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="panel">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="boseDeviceSelected">
+                                            <div id="boseDeviceSelectedImage"></div>
+                                            <div class="imgAlbumSelected"></div>
+                                            <h1 id="boseDeviceSelectedName"></h1>
+                                            <!--<h2 id="boseDeviceSelectedStatus"></h2>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="alarmModal" tabindex="-1" role="dialog" aria-labelledby="alarmModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="newalarm"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal alarmCreateTable">
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-2 control-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="alarmname" class="form-control input alarmname" id="name" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">Time</label>
+                                <div class="col-sm-10">
+                                    <input type="time" pattern="([0-1]{1}[0-9]{1}|20|21|22|23):[0-5]{1}[0-9]{1}" name="time" class="input alarmtime form-control" id="timr" placeholder="Time">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">Days</label>
+                                <div class="col-sm-10">
+                                    <ul id="alarmdays" class="unselectable">
+                                        <li>Su</li>
+                                        <li>Mo</li>
+                                        <li>Tu</li>
+                                        <li>We</li>
+                                        <li>Th</li>
+                                        <li>Fr</li>
+                                        <li>Sa</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">Preset</label>
+                                <div class="col-sm-10">
+                                    <ul id="alarmpresets" class="unselectable">
+                                        <li>1</li>
+                                        <li>2</li>
+                                        <li>3</li>
+                                        <li>4</li>
+                                        <li>5</li>
+                                        <li>6</li>
+                                        <li><span class="glyphicon glyphicon-off" aria-hidden="true"></span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">Volume</label>
+                                <div class="col-sm-10 alarmvolumespace">
+                                    <div class="alarmvolumecontainer">
+                                        <input class="alarmvolume" id="alarmvolume" type="range" min="0" max="100" step ="1" value ="20"/>
+                                        <div id="alarmvolumetext">20</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-2 control-label">Active</label>
+                                <div class="col-sm-10">
+                                    <div class="switch" id="alarmswitch">
+                                        <label class="switch">
+                                        <input class="switch-input alarmactive" type="checkbox" id="alarmsactive" checked/>
+                                        <span class="switch-label" data-on="On" data-off="Off"></span>
+                                        <span class="switch-handle"></span>
+                                        </label>
+                                    </div>
+                                    <select name="top5" class="select form-control" id="alarmdevice"></select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="alarmdata" id="alarmdata" data-data="">
+                        <button type="button" class="btn btn-default" id="canceledit" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="alarmsave">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
